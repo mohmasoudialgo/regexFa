@@ -1,1 +1,1 @@
-export { default as generatePersianNameRegex } from "./src/regexFaWord.js";
+export { default as regexFaWord } from "./src/regexFaWord.js";
