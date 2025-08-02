@@ -1,0 +1,20 @@
+{
+  "name": "regexFa",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "regex",
+    "validation",
+    "persian",
+    "farsi",
+    "javascript",
+    "data-validation",
+    "pattern"
+  ],
+  "author": "",
+  "license": "ISC",
+  "description": "Professional JavaScript utility to generate flexible and accurate regex patterns for data validation"
+}
