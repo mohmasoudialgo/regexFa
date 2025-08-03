@@ -2,7 +2,7 @@
  * Generate a regex pattern for matching Persian words.
  *
  * @param {Object} options
- * @param {"basic"|"strict"} [options.type="basic"] - Type of regex to generate.
+ * @param {"basic"|"strict"|"extended"} [options.type="basic"] - Type of regex to generate.
  * @param {number} [options.min=0] - Minimum allowed length.
  * @param {number} [options.max=30] - Maximum allowed length.
  * @returns {RegExp}
@@ -24,6 +24,15 @@ export default function regexFaWord({ type = "basic", min = 1, max = 999999 } = 
     // فقط فاصله بین حروف مجاز است
     
       pattern = `^(?! )[\\u0600-\\u06FF](?:(?:[\\u0600-\\u06FF\\u06F0-\\u06F9]| +(?=[\\u0600-\\u06FF])){${min-1},${max-1}})(?<! )$`;
+      break;
+
+    case "extended":
+    // فقط حروف فارسی مجاز هستند
+    // فقط اعداد فارسی و انگلیسی مجازند، ولی نباید در ابتدای رشته باشند
+    // علامت‌های خاص مجازند (در بین رشته)
+    // فقط فاصله بین حروف مجاز است
+
+      pattern = `^[\\u0600-\\u06FF](?:[\\u0600-\\u06FF0-9۰-۹.,!؟\\-_:;@#$%^&*()+=\\[\\]{}"'\\/\\\\|<>~\\s]*[\\u0600-\\u06FF0-9۰-۹.,!؟\\-_:;@#$%^&*()+=\\[\\]{}"'\\/\\\\|<>~])?$`;
       break;
 
     default:
