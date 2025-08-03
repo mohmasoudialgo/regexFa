@@ -3,23 +3,27 @@
  *
  * @param {Object} options
  * @param {"basic"|"strict"} [options.type="basic"] - Type of regex to generate.
- * @param {number} [options.minLen=0] - Minimum allowed length.
- * @param {number} [options.maxLen=30] - Maximum allowed length.
+ * @param {number} [options.min=0] - Minimum allowed length.
+ * @param {number} [options.max=30] - Maximum allowed length.
  * @returns {RegExp}
  */
-export default function regexFaWord({ type = "basic", minLen = 2, maxLen = 30 } = {}) {
+export default function regexFaWord({ type = "basic", min = 1, max = 999999 } = {}) {
   let pattern = "";
 
   switch (type) {
     case "basic":
-      // Only Persian letters and spaces
-      pattern = `^[\\u0600-\\u06CC]{${minLen},${maxLen}}$`;
+    // فقط حروف فارسی مجاز هستند
+    // فقط فاصله بین حروف مجاز است
+      
+      pattern = `^(?! )[\\u0600-\\u06CC ]{${min},${max}}(?<! )$`;
       break;
 
     case "strict":
-      // Persian letters and Persian digits, digits not allowed at beginning,
-      // No English, no special characters, no leading/trailing space
-      pattern = `^(?!\\s)(?![۰-۹])[\\u0600-\\u06FF۰-۹\\s]{${minLen},${maxLen}}(?<!\\s)$`;
+    // فقط حروف فارسی مجاز هستند
+    // فقط اعداد فارسی مجاز، ولی نباید در ابتدای رشته باشند
+    // فقط فاصله بین حروف مجاز است
+    
+      pattern = `^(?! )[\\u0600-\\u06FF](?:(?:[\\u0600-\\u06FF\\u06F0-\\u06F9]| +(?=[\\u0600-\\u06FF])){${min-1},${max-1}})(?<! )$`;
       break;
 
     default:
