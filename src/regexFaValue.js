@@ -2,13 +2,13 @@
  * Validate value based on Iranian formats like nationalId and postCode.
  *
  * @param {Object} options
- * @param {"nationalId"|"postCode"} options.type - Type of value to validate.
+ * @param {"nationalId"|"postCode"|"mobile"} options.type - Type of value to validate.
  * @param {string|number} options.value - The value to validate.
  * @returns {boolean}
  */
 export default function regexValue({ type, value }) {
   if (value == null) return false;
-  const str = String(value).trim();
+  let str = String(value).trim();
 
   switch (type) {
     case 'nationalId': {
@@ -37,6 +37,11 @@ export default function regexValue({ type, value }) {
 
       const pattern = /^(?!.*(\d)\1{3})[13-9]{4}[1346-9][0-9]{5}$/;
       return pattern.test(clean);
+    }
+
+    case 'mobile': {
+      str = str.replace(/^(\+98|0098)/, '0');
+      return /^09\d{9}$/.test(str);
     }
 
     default:
