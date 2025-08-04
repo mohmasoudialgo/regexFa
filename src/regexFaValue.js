@@ -2,7 +2,7 @@
  * Validate value based on Iranian formats like nationalId and postCode.
  *
  * @param {Object} options
- * @param {"nationalId"|"postCode"|"mobile"} options.type - Type of value to validate.
+ * @param {"nationalId"|"postCode"|"mobile"|"cardNumber"|"sheba"} options.type - Type of value to validate.
  * @param {string|number} options.value - The value to validate.
  * @returns {boolean}
  */
