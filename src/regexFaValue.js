@@ -2,7 +2,7 @@
  * Validate value based on Iranian formats like nationalId and postCode.
  *
  * @param {Object} options
- * @param {"nationalId"|"postCode"|"mobile"|"cardNumber"|"sheba"|"bankNumber"} options.type - Type of value to validate.
+ * @param {"nationalId"|"postCode"|"mobile"|"cardNumber"|"sheba"|"bankNumber"|"email"} options.type - Type of value to validate.
  * @param {string|number} options.value - The value to validate.
  * @returns {boolean}
  */
@@ -89,6 +89,14 @@ export default function regexValue({ type, value }) {
     if (clean.length < 6 || clean.length > 20) return false;
     if (!/^\d+$/.test(clean)) return false;
     if (/^(\d)\1+$/.test(clean)) return false;
+    return true;
+  }
+
+  case 'email': {
+    const clean = String(str).trim().toLowerCase();
+    if (!clean.includes('@')) return false;
+    if (clean.length < 6 || clean.length > 320) return false;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(clean)) return false;
     return true;
   }
 
