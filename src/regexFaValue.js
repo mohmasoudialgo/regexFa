@@ -44,6 +44,26 @@ export default function regexValue({ type, value }) {
       return /^09\d{9}$/.test(str);
     }
 
+    case 'cardNumber': {
+      const clean = str.replace(/[\s-]/g, '');
+      if (!/^\d{16}$/.test(clean)) return false;
+      if (/^(\d)\1{15}$/.test(clean)) return false;
+
+      const digits = clean.split('').map(Number);
+      let sum = 0;
+
+      for (let i = 0; i < 16; i++) {
+        let digit = digits[i];
+        if (i % 2 === 0) {
+          digit *= 2;
+          if (digit > 9) digit -= 9;
+        }
+        sum += digit;
+      }
+
+      return sum % 10 === 0;
+    }
+
     default:
       throw new Error(`Invalid validation type: ${type}`);
   }
