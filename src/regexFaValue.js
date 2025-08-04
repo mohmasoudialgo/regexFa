@@ -64,6 +64,26 @@ export default function regexValue({ type, value }) {
       return sum % 10 === 0;
     }
 
+    case 'sheba': {
+      const clean = str.toUpperCase().replace(/\s|-/g, '');
+      if (!/^IR\d{22}$/.test(clean)) return false;
+
+      const rearranged = clean.slice(4) + clean.slice(0, 4);
+
+      const converted = rearranged.replace(/[A-Z]/g, ch => (ch.charCodeAt(0) - 55));
+
+      let remainder = converted;
+      let block = '';
+
+      while (remainder.length > 2) {
+        block = remainder.slice(0, 9); // حداکثر 9 رقم
+        remainder = (parseInt(block, 10) % 97).toString() + remainder.slice(block.length);
+      }
+
+      const isValid = parseInt(remainder, 10) % 97 === 1;
+      return isValid;
+  }
+
     default:
       throw new Error(`Invalid validation type: ${type}`);
   }
