@@ -2,7 +2,7 @@
  * Validate value based on Iranian formats like nationalId and postCode.
  *
  * @param {Object} options
- * @param {"nationalId"|"postCode"|"mobile"|"cardNumber"|"sheba"} options.type - Type of value to validate.
+ * @param {"nationalId"|"postCode"|"mobile"|"cardNumber"|"sheba"|"bankNumber"} options.type - Type of value to validate.
  * @param {string|number} options.value - The value to validate.
  * @returns {boolean}
  */
@@ -82,6 +82,14 @@ export default function regexValue({ type, value }) {
 
       const isValid = parseInt(remainder, 10) % 97 === 1;
       return isValid;
+  }
+
+  case 'bankNumber': {
+    const clean = str.replace(/\D/g, '');
+    if (clean.length < 6 || clean.length > 20) return false;
+    if (!/^\d+$/.test(clean)) return false;
+    if (/^(\d)\1+$/.test(clean)) return false;
+    return true;
   }
 
     default:
