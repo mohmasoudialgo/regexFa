@@ -2,7 +2,7 @@
  * Validate value based on Iranian formats like nationalId and postCode.
  *
  * @param {Object} options
- * @param {"nationalId"|"postCode"|"mobile"|"cardNumber"|"sheba"|"bankNumber"|"email"|"date"|"time"|"ipv4"} options.type - Type of value to validate.
+ * @param {"nationalId"|"postCode"|"mobile"|"cardNumber"|"sheba"|"bankNumber"|"email"|"date"|"time"|"ipv4"|"ipv6"} options.type - Type of value to validate.
  * @param {string|number} options.value - The value to validate.
  * @returns {boolean}
  */
@@ -147,6 +147,31 @@ export default function regexValue({ type, value }) {
       if (part.length > 1 && part.startsWith('0')) return false;
       const num = Number(part);
       if (num < 0 || num > 255 || isNaN(num)) return false;
+    }
+
+    return true;
+  }
+
+  case 'ipv6': {
+    const clean = String(str).trim().toLowerCase();
+
+    if (!/^[0-9a-f:]+$/.test(clean)) return false;
+
+    if ((clean.match(/::/g) || []).length > 1) return false;
+
+    const parts = clean.split(':');
+
+    if (clean.includes('::')) {
+      if (parts.length > 8) return false;
+    } else {
+      if (parts.length !== 8) return false;
+    }
+
+    for (const part of parts) {
+      if (part.length === 0) continue;
+
+      if (part.length > 4) return false;
+      if (!/^[0-9a-f]{1,4}$/.test(part)) return false;
     }
 
     return true;
