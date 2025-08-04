@@ -2,7 +2,7 @@
  * Validate value based on Iranian formats like nationalId and postCode.
  *
  * @param {Object} options
- * @param {"nationalId"|"postCode"|"mobile"|"cardNumber"|"sheba"|"bankNumber"|"email"} options.type - Type of value to validate.
+ * @param {"nationalId"|"postCode"|"mobile"|"cardNumber"|"sheba"|"bankNumber"|"email"|"date"} options.type - Type of value to validate.
  * @param {string|number} options.value - The value to validate.
  * @returns {boolean}
  */
@@ -98,6 +98,18 @@ export default function regexValue({ type, value }) {
     if (clean.length < 6 || clean.length > 320) return false;
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(clean)) return false;
     return true;
+  }
+
+  case 'date': {
+    const persianNums = '۰۱۲۳۴۵۶۷۸۹';
+    const englishNums = '0123456789';
+
+    let clean = String(str).trim().replace(/[۰-۹]/g, d => englishNums[persianNums.indexOf(d)]);
+
+    clean = clean.replace(/[-.]/g, '/');
+
+    const regex = /^(13|14)\d{2}\/(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])$/;
+    return regex.test(clean);
   }
 
     default:
