@@ -2,7 +2,7 @@
  * Validate value based on Iranian formats like nationalId and postCode.
  *
  * @param {Object} options
- * @param {"nationalId"|"postCode"|"mobile"|"cardNumber"|"sheba"|"bankNumber"|"email"|"date"} options.type - Type of value to validate.
+ * @param {"nationalId"|"postCode"|"mobile"|"cardNumber"|"sheba"|"bankNumber"|"email"|"date"|"time"} options.type - Type of value to validate.
  * @param {string|number} options.value - The value to validate.
  * @returns {boolean}
  */
@@ -110,6 +110,30 @@ export default function regexValue({ type, value }) {
 
     const regex = /^(13|14)\d{2}\/(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])$/;
     return regex.test(clean);
+  }
+
+  case 'time': {
+    const persianNums = '۰۱۲۳۴۵۶۷۸۹';
+    const englishNums = '0123456789';
+
+    let clean = String(str).trim().replace(/[۰-۹]/g, d => englishNums[persianNums.indexOf(d)]);
+
+    if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2}(\.\d+)?(Z)?)?$/.test(clean)) {
+      const date = new Date(clean);
+      return !isNaN(date.getTime()); 
+    }
+
+    const match = clean.match(/^(\d{1,2}):(\d{1,2})$/);
+    if (!match) return false;
+
+    const hour = Number(match[1]);
+    const minute = Number(match[2]);
+
+    if (hour < 0 || hour > 24) return false;
+    if (minute < 0 || minute > 59) return false;
+    if (hour === 24 && minute !== 0) return false;
+
+    return true;
   }
 
     default:
