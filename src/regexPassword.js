@@ -2,17 +2,17 @@
  * Generate regex pattern for password validation.
  *
  * @param {Object} options
- * @param {"weak"|"normal"|"strong"|"veryStrong"} [options.type="normal"] - Password strength type.
+ * @param {"weak"|"normal"|"strong"|"veryStrong"|"custom"} [options.type="normal"] - Password strength type.
  * @param {number} [options.min=6] - Minimum length.
  * @param {number} [options.max=128] - Maximum length.
+ * @param {string|RegExp} [options.newPattern] - Custom regex pattern (required for type: "custom").
  * @returns {RegExp}
  */
-export default function regexPass({ type = "weak", min = 2, max = 256 } = {}) {
+export default function regexPass({ type = "weak", min = 2, max = 256 , newPattern: customPattern } = {}) {
     let pattern = "";
 
   switch (type) {
     case "weak":
-      // هر کاراکتری، حداقل طول min تا max
       pattern = `^[\\s\\S]{${min},${max}}$`;
       break;
 
@@ -30,6 +30,13 @@ export default function regexPass({ type = "weak", min = 2, max = 256 } = {}) {
       // هر کاراکتری، حداقل یک عدد، یک حرف بزرگ و یک کاراکتر خاص
       pattern = `^(?=.*\\d)(?=.*[A-Z])(?=.*[!@#$%^&*()_+\\-=[\\]{};':"\\\\|,.<>/?])[\\s\\S]{${min},${max}}$`;
       break;
+
+    case "custom":
+      // استفاده از الگوی سفارشی
+      if (!customPattern) {
+        throw new Error(`Custom pattern must be provided for type: "${type}"`);
+      }
+      return typeof customPattern === "string" ? new RegExp(customPattern) : customPattern;
 
     default:
       throw new Error(`Invalid password regex type: ${type}`);
