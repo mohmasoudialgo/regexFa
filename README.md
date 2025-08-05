@@ -193,3 +193,4 @@ console.log(regex.test("username_"));     // false
 ```
 
 ## License
+[MIT licensed](https://github.com/mohmasoudialgo/regexFa/blob/master/LICENSE) and all it's dependencies are MIT or BSD licensed.
