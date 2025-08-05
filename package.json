@@ -1,6 +1,6 @@
 {
   "name": "regex-fa",
-  "version": "1.0.2",
+  "version": "1.0.21",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -30,7 +30,15 @@
     "regex-validation",
     "regex-tool"
   ],
-  "author": "",
-  "license": "ISC",
-  "description": "Professional JavaScript utility to generate flexible and accurate regex patterns for data validation"
+  "author": "Mohammad Masoudi",
+  "license": "MIT",
+  "description": "Professional JavaScript utility to generate flexible and accurate regex patterns for data validation",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mohmasoudialgo/regexFa.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mohmasoudialgo/regexFa/issues"
+  },
+  "homepage": "https://github.com/mohmasoudialgo/regexFa#readme"
 }

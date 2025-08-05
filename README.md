@@ -1,24 +1,16 @@
-📦 regex‑fa
-A collection of ready-to-use regular expressions for validating common data formats in Persian and English projects:
+#📦 regex‑fa
 
-✅ National ID (Iran)
-✅ Iranian mobile numbers
-✅ Email addresses
-✅ Date and time formats
-✅ Bank card numbers, IBAN (Sheba), and account numbers
-✅ Passwords with different strength levels
-✅ IP addresses (IPv4 and IPv6)
-✅ Usernames
-✅ Persian words (with various forms)
-...and more
-
-🚀 Installation
-
-npm install regex-fa
+**A collection of ready-to-use regular expressions for validating common data formats in Persian and English projects:**
 
 
-🧠 regexFaWord
-Generates a customizable regular expression for validating Persian words or phrases with support for strictness levels, length limits, and even custom patterns.
+## 🚀 Installation
+
+`npm install regex-fa`
+
+
+
+## 🧠 regexFaWord
+
 
 | Option          | Type                                                  | Default   | Description                                                       |
 | --------------- | ----------------------------------------------------- | --------- | ----------------------------------------------------------------- |
@@ -28,21 +20,21 @@ Generates a customizable regular expression for validating Persian words or phra
 | `customPattern` | `string` \| `RegExp`                                  | —         | A custom regex pattern (required when `type` is `"custom"`).      |
 
 
-📘 Types Explained
 
-basic:
+## basic:
 Allows only Persian letters and spaces (no digits or symbols). No leading or trailing spaces.
 
-strict:
+## strict:
 Allows Persian letters and Persian digits (۰-۹), but digits cannot appear at the beginning. Only space between words is allowed.
 
-extended:
+## extended:
 Allows Persian letters, Persian and English digits, and symbols (e.g., . , ! ؟ - _ : @ # ...). Symbols and digits are not allowed at the start.
 
-custom:
+## custom:
 Allows you to pass your own custom pattern as a string or RegExp. Useful when none of the built-in types fit your needs.
 
-<!-- example-start -->
+## Basic Usage regexFaWord
+``` js
 
 import { regexFaWord } from "regex-fa";
 
@@ -55,10 +47,9 @@ const regexWord = regexFaWord({
 console.log(regexWord.test("سلام ۱۲۳")); // true
 console.log(regexWord.test("!سلام!"));   // false
 
-<!-- example-end -->
+```
 
-🔢 regexFaNum
-Generates a regular expression for matching Persian (and optionally English) numbers with various strictness levels and length limits.
+## 🔢 regexFaNum
 
 | Option | Type                                    | Default   | Description                                          |
 | ------ | --------------------------------------- | --------- | ---------------------------------------------------- |
@@ -67,17 +58,17 @@ Generates a regular expression for matching Persian (and optionally English) num
 | `max`  | `number`                                | `999999`  | Maximum allowed character length.                    |
 
 
-📘 Types Explained
-basic:
+## basic:
 Only Persian digits (۰-۹) are allowed. No spaces or symbols.
 
-strict:
+## strict:
 Only Persian digits are allowed, with optional single spaces between digit groups. No leading or trailing spaces.
 
-extended:
+## extended:
 Allows Persian and English digits, and special characters (e.g., .,!?- etc.) — but the string must start and end with a digit.
 
-<!-- example-start -->
+## Basic Usage regexFaNum
+``` js
 
 import { regexFaNum } from "regex-fa";
 
@@ -91,16 +82,16 @@ console.log(regexNumber.test("۱۲۳۴۵۶۷۸۹۰")); // true
 console.log(regexNumber.test("۱۲ ۳۴ ۵۶"));   // true
 console.log(regexNumber.test("۱۲@۳"));       // false
 
-<!-- example-end -->
+```
 
-✅ regexValue
-A utility function that validates various common Iranian (and some international) data formats. Supports formats like National ID, mobile number, email, card number, IBAN, date, time, and IP addresses.
+## ✅ regexValue
 
 | Option  | Type                               | Required | Description                    |
 | ------- | ---------------------------------- | -------- | ------------------------------ |
 | `type`  | string<br/>(see supported types ↓) | ✅        | The type of value to validate. |
 | `value` | `string` \| `number`               | ✅        | The value to be validated.     |
 
+## 📘 Types Explained
 
 | Type         | Description                                      |
 | ------------ | ------------------------------------------------ |
@@ -116,18 +107,19 @@ A utility function that validates various common Iranian (and some international
 | `ipv4`       | Valid IPv4 address                               |
 | `ipv6`       | Valid IPv6 address                               |
 
+## Basic Usage regexValue
+``` js
 
-<!-- example-start -->
 import { regexValue } from "regex-fa";
 
 console.log(regexValue({ type: 'nationalId', value: '2741953295' })); // true
 console.log(regexValue({ type: 'postCode', value: '1345678910' }));   // true
 console.log(regexValue({ type: 'cardNumber', value: '5892107044075003' })); // true
 
-<!-- example-end -->
+```
 
-🔐 regexPass
-Generates a flexible regular expression for validating passwords based on strength level and length limits. You can also define your own custom pattern.
+## 🔐 regexPass
+
 
 | Option       | Type                                                                 | Default  | Description                                                       |
 | ------------ | -------------------------------------------------------------------- | -------- | ----------------------------------------------------------------- |
@@ -137,7 +129,7 @@ Generates a flexible regular expression for validating passwords based on streng
 | `newPattern` | `string` \| `RegExp`                                                 | —        | Required if `type` is `"custom"` — your own custom regex pattern. |
 
 
-📘 Types Explained
+## 📘 Types Explained
 
 | Type         | Description                                                                                             |
 | ------------ | ------------------------------------------------------------------------------------------------------- |
@@ -147,7 +139,8 @@ Generates a flexible regular expression for validating passwords based on streng
 | `veryStrong` | Must include **at least one uppercase, one number, and one special character** (no lowercase required). |
 | `custom`     | Allows passing a fully custom regex. Useful for enforcing organizational rules.                         |
 
-<!-- example-start -->
+## Basic Usage regexPass
+``` js
 import { regexPass } from "regex-fa";
 
 const regexPassword = regexPass({
@@ -159,10 +152,9 @@ const regexPassword = regexPass({
 console.log(regexPassword.test("StrongPass123!")); // true
 console.log(regexPassword.test("weakpass"));       // false
 
-<!-- example-end -->
+```
 
-👤 regexUsername
-Generates a regular expression for validating English-based usernames, IDs, or similar identifiers — with support for multiple strictness levels and formats.
+## 👤 regexUsername
 
 | Option          | Type                                                               | Default          | Description                                              |
 | --------------- | ------------------------------------------------------------------ | ---------------- | -------------------------------------------------------- |
@@ -172,7 +164,8 @@ Generates a regular expression for validating English-based usernames, IDs, or s
 | `customPattern` | `string` \| `RegExp`                                               | —                | Required if `type` is `"custom"` — a fully custom regex. |
 
 
-📘 Types Explained
+## 📘 Types Explained
+
 | Type       | Description                                                                           |
 | ---------- | ------------------------------------------------------------------------------------- |
 | `basic`    | Only English letters (a–z, A–Z)                                                       |
@@ -181,8 +174,8 @@ Generates a regular expression for validating English-based usernames, IDs, or s
 | `extended` | Lowercase letters only, digits, underscores. Must start with a letter.                |
 | `custom`   | Fully custom regex pattern (e.g., for company-specific username rules).               |
 
-
-<!-- example-start -->
+## Basic Usage regexUsername
+``` js
 
 import { regexUsername } from "regex-fa";
 
@@ -197,4 +190,6 @@ console.log(regex.test(".username"));     // false
 console.log(regex.test("user__name"));    // false
 console.log(regex.test("username_"));     // false
 
-<!-- example-end -->
+```
+
+## License
