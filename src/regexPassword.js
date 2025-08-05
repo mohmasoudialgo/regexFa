@@ -13,17 +13,18 @@ export default function regexPass({ type = "weak", min = 2, max = 256 , newPatte
 
   switch (type) {
     case "weak":
+      // هر کاراکتری، حداقل یک حرف
       pattern = `^[\\s\\S]{${min},${max}}$`;
       break;
 
     case "normal":
       // هر کاراکتری، حداقل یک عدد
-      pattern = `^(?=.*\\d)[\\s\\S]{${min},${max}}$`;
+      pattern = `^(?=.*\\d)(?=.*[a-zA-Z])[\\s\\S]{${min},${max}}$`;
       break;
 
     case "strong":
       // هر کاراکتری، حداقل یک عدد و یک حرف بزرگ
-      pattern = `^(?=.*\\d)(?=.*[A-Z])[\\s\\S]{${min},${max}}$`;
+      pattern = `^(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*()_+\\-=[\\]{};':"\\\\|,.<>/?])[\\s\\S]{${min},${max}}$`;
       break;
 
     case "veryStrong":
